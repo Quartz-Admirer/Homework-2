@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oleg Shchendrigin_Comics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <a href="index.html">Main</a>
+  <a href="com.html">Comics</a>
+</nav>
+<div class="comic-container">
+  <div class="comic-details">
+    <h2 id="comic-title"></h2>
+    <p id="comic-date"></p>
+    <img id="comic-image" src="" alt="">
+    <p id="comic-alt"></p>
+  </div>
+</div>
+
+<script>
+  async function fetchComic() {
+    const email = 'o.shchendrigin@innopolis.university'; // Replace with your email
+    const emailParam = new URLSearchParams({ email });
+    const comicIdResponse = await fetch(`https://fwd.innopolis.university/api/hw2?email=${emailParam}`);
+    const comicId = await comicIdResponse.text();
+
+    const comicResponse = await fetch(`https://fwd.innopolis.university/api/comic?id=${comicId}`);
+    const comicData = await comicResponse.json();
+
+
+
+    const title = comicData.safe_title;
+    const date = new Date(
+      Date.UTC(
+        Number.parseInt(comicData.year),
+        Number.parseInt(comicData.month)-1
+      )).toLocaleDateString(undefined,{month:"numeric",year:"numeric"});
+    const imgSrc = comicData.img;
+    const altText = comicData.alt;
+
+    document.getElementById('comic-title').textContent = title;
+    document.getElementById('comic-date').textContent = date;
+    const imgElement = document.getElementById('comic-image');
+    imgElement.src = imgSrc;
+    imgElement.alt = altText;
+    document.getElementById('comic-alt').textContent = altText;
+  }
+
+  fetchComic();
+</script>
+</body>
+</html>
