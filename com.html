@@ -22,7 +22,7 @@
 
 <script>
   async function fetchComic() {
-    const email = 'o.shchendrigin@innopolis.university'; // Replace with your email
+    const email = 'o.shchendrigin@innopolis.university';
     const emailParam = new URLSearchParams({ email });
     const comicIdResponse = await fetch(`https://fwd.innopolis.university/api/hw2?email=${emailParam}`);
     const comicId = await comicIdResponse.text();
